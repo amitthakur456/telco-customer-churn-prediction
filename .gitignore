@@ -1,0 +1,7 @@
+customer_retention_saas.db
+saas_users.db
+__pycache__/
+.ipynb_checkpoints/
+
+# Local workspace and customer data
+workspace_data/
