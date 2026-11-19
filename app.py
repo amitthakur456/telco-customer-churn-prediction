@@ -212,7 +212,7 @@ def style_fig(fig):
 
 
 def show_chart(fig):
-    st.plotly_chart(style_fig(fig), use_container_width=True)
+    st.plotly_chart(style_fig(fig), width="stretch")
 
 
 def kpi_card(label, value, accent="#3E63DD"):
@@ -306,7 +306,7 @@ def render_form(feature_columns):
                         customer_data[feature] = render_input_field(feature)
 
         submitted = st.form_submit_button(
-            "🔮 Predict Churn Risk", use_container_width=True, type="primary"
+            "🔮 Predict Churn Risk", width="stretch", type="primary"
         )
 
     return submitted, customer_data
@@ -341,7 +341,7 @@ def render_result(pipeline, threshold, customer_df, full_df):
     is_churn = probability >= threshold
     risk_level = get_risk_level(probability)
 
-    st.plotly_chart(gauge_chart(probability, threshold), use_container_width=True)
+    st.plotly_chart(gauge_chart(probability, threshold), width="stretch")
 
     st.markdown(
         f'<span class="badge" style="background:{RISK_COLORS[risk_level]}">'
@@ -369,7 +369,7 @@ def render_result(pipeline, threshold, customer_df, full_df):
     render_recommendation(risk_level)
 
     with st.expander("View Customer Input"):
-        st.dataframe(customer_df, use_container_width=True)
+        st.dataframe(customer_df, width="stretch")
 
 
 def render_prediction_tab(full_df):
@@ -515,14 +515,14 @@ def render_analytics_tab(df, tenure_analysis, payment_analysis, risk_analysis):
             "zyada churn-rate wala contract segment nahi mila."
         )
     else:
-        st.dataframe(high_risk, use_container_width=True)
+        st.dataframe(high_risk, width="stretch")
 
     st.subheader("Filtered Customer Data")
     columns_to_show = [
         "customerID", "gender", "tenure", "Contract",
         "MonthlyCharges", "TotalCharges", "Churn",
     ]
-    st.dataframe(df[columns_to_show], use_container_width=True)
+    st.dataframe(df[columns_to_show], width="stretch")
 
     st.download_button(
         "📥 Download Filtered Data (CSV)",
@@ -823,7 +823,7 @@ def render_auth_screen():
                 "Password", type="password", key="login_password"
             )
             submitted = st.form_submit_button(
-                "Sign in", type="primary", use_container_width=True
+                "Sign in", type="primary", width="stretch"
             )
 
         if submitted:
@@ -854,7 +854,7 @@ def render_auth_screen():
                 key="confirm_password",
             )
             submitted = st.form_submit_button(
-                "Create workspace", type="primary", use_container_width=True
+                "Create workspace", type="primary", width="stretch"
             )
 
         if submitted:
@@ -1007,7 +1007,7 @@ def render_admin_panel(user):
                 (user["workspace_id"],),
             ).fetchall()
         if logs:
-            st.dataframe(pd.DataFrame([dict(row) for row in logs]), use_container_width=True, hide_index=True)
+            st.dataframe(pd.DataFrame([dict(row) for row in logs]), width="stretch", hide_index=True)
         else:
             st.info("No activity recorded yet.")
 
@@ -1073,7 +1073,7 @@ def render_app_for_authenticated_user(user):
         st.markdown(f"### 🏢 {user['workspace_name']}")
         st.caption(f"{user['full_name']} · {user['role']}")
         st.caption("Database: PostgreSQL" if DATABASE_URL else "Database: Local SQLite (development)")
-        if st.button("Log out", use_container_width=True):
+        if st.button("Log out", width="stretch"):
             st.session_state.pop("saas_user", None)
             st.rerun()
         st.divider()
